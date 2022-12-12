@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import mainLogo from './assets/icons/logo.png';
 import buyHouse from './assets/icons/buy-a-house.svg';
 
 export function OriginPage(): JSX.Element {
-  const currentDate = Date.now();
-
+  const currentDate = new Date();
+  const [amount, setAmount] = useState(0);
+  const [date, setDate] = useState('');
+  const [monthlyAmount, setMonthlyAmount] = useState(0);
   const INPUT = styled.input.attrs((props) => ({
     type: props.type,
     size: props.size || '1em',
@@ -52,6 +54,34 @@ export function OriginPage(): JSX.Element {
     font-weight: bold;
   `;
 
+  const handleChangeAmount = (event: any) => {
+    setAmount(event.target.value);
+  };
+
+  const handleChangeDate = (event: any) => {
+    setDate(event.target.value);
+  };
+
+  const onClickConfirm = () => {
+    const months = monthDiff(
+      currentDate,
+      Number(date.split('-')[0]),
+      Number(date.split('-')[1])
+    );
+    // setAmount(amount)
+    setMonthlyAmount(amount / months);
+
+    console.log(months);
+  };
+
+  function monthDiff(d1: Date, selectedYear: number, selectedMonth: number) {
+    let months;
+    months = (selectedYear - d1.getFullYear()) * 12;
+    months -= d1.getMonth();
+    months += selectedMonth;
+    return months <= 0 ? 0 : months;
+  }
+
   return (
     <div>
       <div
@@ -64,15 +94,9 @@ export function OriginPage(): JSX.Element {
           zIndex: 9,
         }}
       >
-        <img
-          src={mainLogo}
-          style={{
-            left: '0%',
-            right: '0%',
-            top: '0%',
-            bottom: '0%',
-          }}
-        />
+        <div className="p-4">
+          <img src={mainLogo} />
+        </div>
       </div>
       <div
         style={{
@@ -81,12 +105,19 @@ export function OriginPage(): JSX.Element {
           left: '0px',
           background: '#F4F8FA',
           position: 'absolute',
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-evenly',
         }}
+        className="d-flex justify-content-around"
       >
-        <div>Let&apos;s plan saving your goal </div>
+        <div
+          style={{
+            color: '#1B31A8',
+            fontSize: '1.2em',
+          }}
+          className="d-flex justify-content-center mt-5"
+        >
+          Let&apos;s plan your &nbsp;
+          <span style={{ fontWeight: 'bold' }}>saving goal.</span>{' '}
+        </div>
         <div
           style={{
             position: 'absolute',
@@ -98,21 +129,18 @@ export function OriginPage(): JSX.Element {
             width: '600px',
             height: '550px',
             padding: '50px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-around',
           }}
+          className="d-flex flex-column justify-content-around"
         >
-          <div className="d-flex flex-row">
+          <div className="d-flex justify-content-start">
             <div>
               <img src={buyHouse} />
             </div>
             <div
               style={{
-                display: 'flex',
-                flexDirection: 'column',
                 marginLeft: '1em',
               }}
+              className="d-flex flex-column"
             >
               <div
                 style={{
@@ -132,14 +160,7 @@ export function OriginPage(): JSX.Element {
           </div>
 
           <div className="d-flex flex-row">
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-around',
-                width: '100%',
-              }}
-            >
+            <div className="d-flex flex-column justify-content-around w-100">
               <div style={{ color: '#1E2A32 ' }}>Total amount</div>
               <div>
                 <INPUT
@@ -147,13 +168,25 @@ export function OriginPage(): JSX.Element {
                   width="16em"
                   paddingRight="2em"
                   type="number"
+                  onChange={handleChangeAmount}
+                  value={amount}
                 />
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <div style={{ color: '#1E2A32 ' }}>Reach goal by</div>
               <div>
-                <INPUT placeholder="month" type="month" min="2022-12" />
+                <INPUT
+                  placeholder="month"
+                  type="month"
+                  min={
+                    currentDate.getFullYear() +
+                    '-' +
+                    (Number(currentDate.getMonth()) + Number(1))
+                  }
+                  onChange={handleChangeDate}
+                  value={date}
+                />
               </div>
             </div>
           </div>
@@ -175,9 +208,9 @@ export function OriginPage(): JSX.Element {
                   fontSize: '1.8em',
                   fontWeight: 'bold',
                 }}
-                className="d-flex justify-content-center "
+                className="d-flex justify-content-center"
               >
-                $543.53
+                ${monthlyAmount.toFixed(2)}
               </div>
             </SECONDINPUT>
             <OTHERINPUT>
@@ -186,7 +219,7 @@ export function OriginPage(): JSX.Element {
             </OTHERINPUT>
           </div>
           <div className="d-flex justify-content-center ">
-            <BUTTON>Confirm</BUTTON>
+            <BUTTON onClick={onClickConfirm}>Confirm</BUTTON>
           </div>
         </div>
       </div>
