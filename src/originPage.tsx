@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import mainLogo from './assets/icons/logo.png';
 import buyHouse from './assets/icons/buy-a-house.svg';
 
+// Amount and Date Input
 const INPUT = styled.input.attrs((props) => ({
   size: props.size || '1em',
   boxSizing: 'border-box',
@@ -17,7 +18,8 @@ const INPUT = styled.input.attrs((props) => ({
   padding: ${(props) => props.size};
 `;
 
-const SECONDINPUT = styled.div({
+// Div for showing monthly amount
+const STYLEDDIVFIRST = styled.div({
   boxSizing: 'border-box',
   border: '1px solid #E9EEF2',
   borderRadius: '3px',
@@ -27,8 +29,8 @@ const SECONDINPUT = styled.div({
   borderBottom: 'none',
 });
 
-const OTHERINPUT = styled.div({
-  boxSizing: 'border-box',
+// Div to show other calculations
+const STYLEDDIVSECOND = styled.div({
   border: '1px solid #E9EEF2',
   borderRadius: '3px',
   padding: '1.3em',
@@ -37,6 +39,7 @@ const OTHERINPUT = styled.div({
   background: '#F4F8FA',
 });
 
+// confirm button
 const BUTTON = styled.button`
   width: 320px;
   height: 56px;
@@ -54,21 +57,24 @@ export function OriginPage(): JSX.Element {
   const [monthlyAmount, setMonthlyAmount] = useState(0);
   const [totalMonths, setTotalMonths] = useState(0);
 
+  // Handle the change in Amount Input
   const handleChangeAmount = (event: { target: { value: number } }) => {
     setAmount(event.target.value);
     if (date !== '') {
-      handleData(event.target.value, date);
+      processData(event.target.value, date);
     }
   };
 
+  // Handle the change in Date input
   const handleChangeDate = (event: { target: { value: string } }) => {
     setDate(event.target.value);
     if (amount !== 0) {
-      handleData(amount, event.target.value);
+      processData(amount, event.target.value);
     }
   };
 
-  const handleData = (amount: number, selectedDate: string) => {
+  // Process Data and calculate the months and monthly amount
+  const processData = (amount: number, selectedDate: string) => {
     const months = monthDiff(
       currentDate,
       Number(selectedDate.split('-')[0]),
@@ -78,13 +84,14 @@ export function OriginPage(): JSX.Element {
     setMonthlyAmount(amount / months);
   };
 
-  function monthDiff(d1: Date, selectedYear: number, selectedMonth: number) {
+  // function to find month difference between two dates
+  const monthDiff = (d1: Date, selectedYear: number, selectedMonth: number) => {
     let months;
     months = (selectedYear - d1.getFullYear()) * 12;
     months -= d1.getMonth();
     months += selectedMonth;
     return months <= 0 ? 0 : months;
-  }
+  };
 
   return (
     <div>
@@ -132,7 +139,6 @@ export function OriginPage(): JSX.Element {
             boxShadow: '0px 16px 32px rgba(30, 42, 50, 0.08)',
             height: '70%',
             padding: '3.1%',
-            widows: window.innerWidth,
           }}
           className="d-flex flex-column justify-content-around"
         >
@@ -163,8 +169,9 @@ export function OriginPage(): JSX.Element {
             </div>
           </div>
 
+          {/* Amount and Month Div */}
           <div className="item" style={{ paddingLeft: 0, paddingRight: 0 }}>
-            <div className="d-flex flex-column col-md-7 col-xs-10">
+            <div className="d-flex flex-column col-md-7">
               <div style={{ color: '#1E2A32 ' }}>Total amount</div>
               <div>
                 <INPUT
@@ -172,11 +179,12 @@ export function OriginPage(): JSX.Element {
                   placeholder="Amount"
                   onChange={handleChangeAmount}
                   value={amount}
+                  name="amount"
                 />
               </div>
             </div>
 
-            <div className="d-flex flex-column col-xs-10">
+            <div className="d-flex flex-column col-md-4 ">
               <div style={{ color: '#1E2A32 ' }}>Reach goal by</div>
               <div>
                 <INPUT
@@ -189,13 +197,16 @@ export function OriginPage(): JSX.Element {
                   }
                   onChange={handleChangeDate}
                   value={date}
+                  name="reachDate"
                 />
               </div>
             </div>
           </div>
+          {/* Amount and Month Div */}
 
+          {/* Bottom Div */}
           <div className="d-flex flex-column">
-            <SECONDINPUT>
+            <STYLEDDIVFIRST>
               <div
                 className="d-flex flex-column justify-content-center"
                 style={{
@@ -215,8 +226,9 @@ export function OriginPage(): JSX.Element {
               >
                 ${monthlyAmount.toFixed(2)}
               </div>
-            </SECONDINPUT>
-            <OTHERINPUT>
+            </STYLEDDIVFIRST>
+
+            <STYLEDDIVSECOND>
               <div>
                 You’re planning{' '}
                 <span style={{ fontWeight: 'bold' }}>
@@ -226,11 +238,15 @@ export function OriginPage(): JSX.Element {
                 <span style={{ fontWeight: 'bold' }}>${amount}</span> &nbsp;goal
                 by <span style={{ fontWeight: 'bold' }}>{date}.</span>
               </div>
-            </OTHERINPUT>
+            </STYLEDDIVSECOND>
           </div>
+          {/* Bottom Div */}
+
+          {/* Button */}
           <div className="d-flex justify-content-center mt-xs-4">
             <BUTTON>Confirm</BUTTON>
           </div>
+          {/* Button */}
         </div>
       </div>
     </div>
