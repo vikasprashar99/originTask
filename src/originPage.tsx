@@ -3,6 +3,50 @@ import styled from 'styled-components';
 import mainLogo from './assets/icons/logo.png';
 import buyHouse from './assets/icons/buy-a-house.svg';
 
+const INPUT = styled.input.attrs((props) => ({
+  size: props.size || '1em',
+  boxSizing: 'border-box',
+}))`
+  color: #4d6475;
+  font-size: 1em;
+  border: 1px solid #e9eef2;
+  border-radius: 3px;
+  box-sizing: border-box;
+  width: 100%;
+  /* here we use the dynamically computed prop */
+  padding: ${(props) => props.size};
+`;
+
+const SECONDINPUT = styled.div({
+  boxSizing: 'border-box',
+  border: '1px solid #E9EEF2',
+  borderRadius: '3px',
+  padding: '1.3em',
+  display: 'flex',
+  justifyContent: 'space-between',
+  borderBottom: 'none',
+});
+
+const OTHERINPUT = styled.div({
+  boxSizing: 'border-box',
+  border: '1px solid #E9EEF2',
+  borderRadius: '3px',
+  padding: '1.3em',
+  display: 'flex',
+  borderTop: 'none',
+  background: '#F4F8FA',
+});
+
+const BUTTON = styled.button`
+  width: 320px;
+  height: 56px;
+  background: #1b31a8;
+  border-radius: 32px;
+  color: white;
+  font-size: 1em;
+  font-weight: bold;
+`;
+
 export function OriginPage(): JSX.Element {
   const currentDate = new Date();
   const [amount, setAmount] = useState(0);
@@ -10,65 +54,21 @@ export function OriginPage(): JSX.Element {
   const [monthlyAmount, setMonthlyAmount] = useState(0);
   const [totalMonths, setTotalMonths] = useState(0);
 
-  const INPUT = styled.input.attrs((props) => ({
-    size: props.size || '1em',
-    boxSizing: 'border-box',
-  }))`
-    color: #4d6475;
-    font-size: 1em;
-    border: 1px solid #e9eef2;
-    border-radius: 3px;
-    box-sizing: border-box;
-    width: 100%;
-    /* here we use the dynamically computed prop */
-    padding: ${(props) => props.size};
-  `;
-
-  const SECONDINPUT = styled.div({
-    boxSizing: 'border-box',
-    border: '1px solid #E9EEF2',
-    borderRadius: '3px',
-    padding: '1.3em',
-    display: 'flex',
-    justifyContent: 'space-between',
-    borderBottom: 'none',
-  });
-
-  const OTHERINPUT = styled.div({
-    boxSizing: 'border-box',
-    border: '1px solid #E9EEF2',
-    borderRadius: '3px',
-    padding: '1.3em',
-    display: 'flex',
-    borderTop: 'none',
-    background: '#F4F8FA',
-  });
-
-  const BUTTON = styled.button`
-    width: 320px;
-    height: 56px;
-    background: #1b31a8;
-    border-radius: 32px;
-    color: white;
-    font-size: 1em;
-    font-weight: bold;
-  `;
-
-  const handleChangeAmount = (event: any) => {
+  const handleChangeAmount = (event: { target: { value: number } }) => {
     setAmount(event.target.value);
     if (date !== '') {
       handleData(event.target.value, date);
     }
   };
 
-  const handleChangeDate = (event: any) => {
+  const handleChangeDate = (event: { target: { value: string } }) => {
     setDate(event.target.value);
     if (amount !== 0) {
       handleData(amount, event.target.value);
     }
   };
 
-  const handleData = (amount: number, selectedDate: any) => {
+  const handleData = (amount: number, selectedDate: string) => {
     const months = monthDiff(
       currentDate,
       Number(selectedDate.split('-')[0]),
@@ -99,7 +99,7 @@ export function OriginPage(): JSX.Element {
         }}
       >
         <div className="p-4">
-          <img src={mainLogo} />
+          <img src={mainLogo} alt="logo" />
         </div>
       </div>
       <div
@@ -138,7 +138,7 @@ export function OriginPage(): JSX.Element {
         >
           <div className="d-flex justify-content-start">
             <div>
-              <img src={buyHouse} />
+              <img src={buyHouse} alt="buyHouse" />
             </div>
             <div
               style={{
@@ -170,8 +170,8 @@ export function OriginPage(): JSX.Element {
                 <INPUT
                   type="number"
                   placeholder="Amount"
-                  // onChange={handleChangeAmount}
-                  // value={amount}
+                  onChange={handleChangeAmount}
+                  value={amount}
                 />
               </div>
             </div>
