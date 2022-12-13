@@ -8,23 +8,24 @@ export function OriginPage(): JSX.Element {
   const [amount, setAmount] = useState(0);
   const [date, setDate] = useState('');
   const [monthlyAmount, setMonthlyAmount] = useState(0);
+  const [totalMonths, setTotalMonths] = useState(0);
+
   const INPUT = styled.input.attrs((props) => ({
-    type: props.type,
     size: props.size || '1em',
+    boxSizing: 'border-box',
   }))`
-    color: #4D6475;
+    color: #4d6475;
     font-size: 1em;
-    border: 1px solid #E9EEF2;
+    border: 1px solid #e9eef2;
     border-radius: 3px;
+    box-sizing: border-box;
+    width: 100%;
     /* here we use the dynamically computed prop */
     padding: ${(props) => props.size};
-    width:${(props) => props.width}};
-    padding-right:${(props) => props.paddingRight}
   `;
 
   const SECONDINPUT = styled.div({
     boxSizing: 'border-box',
-    minWidth: 0,
     border: '1px solid #E9EEF2',
     borderRadius: '3px',
     padding: '1.3em',
@@ -35,7 +36,6 @@ export function OriginPage(): JSX.Element {
 
   const OTHERINPUT = styled.div({
     boxSizing: 'border-box',
-    minWidth: 0,
     border: '1px solid #E9EEF2',
     borderRadius: '3px',
     padding: '1.3em',
@@ -56,22 +56,26 @@ export function OriginPage(): JSX.Element {
 
   const handleChangeAmount = (event: any) => {
     setAmount(event.target.value);
+    if (date !== '') {
+      handleData(event.target.value, date);
+    }
   };
 
   const handleChangeDate = (event: any) => {
     setDate(event.target.value);
+    if (amount !== 0) {
+      handleData(amount, event.target.value);
+    }
   };
 
-  const onClickConfirm = () => {
+  const handleData = (amount: number, selectedDate: any) => {
     const months = monthDiff(
       currentDate,
-      Number(date.split('-')[0]),
-      Number(date.split('-')[1])
+      Number(selectedDate.split('-')[0]),
+      Number(selectedDate.split('-')[1])
     );
-    // setAmount(amount)
+    setTotalMonths(months);
     setMonthlyAmount(amount / months);
-
-    console.log(months);
   };
 
   function monthDiff(d1: Date, selectedYear: number, selectedMonth: number) {
@@ -126,9 +130,9 @@ export function OriginPage(): JSX.Element {
             transform: 'translate(-50%, -50%)',
             background: '#FFFFFF',
             boxShadow: '0px 16px 32px rgba(30, 42, 50, 0.08)',
-            width: '600px',
-            height: '550px',
-            padding: '50px',
+            height: '70%',
+            padding: '3.1%',
+            widows: window.innerWidth,
           }}
           className="d-flex flex-column justify-content-around"
         >
@@ -159,21 +163,20 @@ export function OriginPage(): JSX.Element {
             </div>
           </div>
 
-          <div className="d-flex flex-row">
-            <div className="d-flex flex-column justify-content-around w-100">
+          <div className="item" style={{ paddingLeft: 0, paddingRight: 0 }}>
+            <div className="d-flex flex-column col-md-7 col-xs-10">
               <div style={{ color: '#1E2A32 ' }}>Total amount</div>
               <div>
                 <INPUT
-                  placeholder="amount"
-                  width="16em"
-                  paddingRight="2em"
                   type="number"
-                  onChange={handleChangeAmount}
-                  value={amount}
+                  placeholder="Amount"
+                  // onChange={handleChangeAmount}
+                  // value={amount}
                 />
               </div>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+
+            <div className="d-flex flex-column col-xs-10">
               <div style={{ color: '#1E2A32 ' }}>Reach goal by</div>
               <div>
                 <INPUT
@@ -214,12 +217,19 @@ export function OriginPage(): JSX.Element {
               </div>
             </SECONDINPUT>
             <OTHERINPUT>
-              You’re planning 48 monthly deposits to reach your $25,000 goal by
-              October 2020.
+              <div>
+                You’re planning{' '}
+                <span style={{ fontWeight: 'bold' }}>
+                  {totalMonths} monthly deposits
+                </span>{' '}
+                to reach your{' '}
+                <span style={{ fontWeight: 'bold' }}>${amount}</span> &nbsp;goal
+                by <span style={{ fontWeight: 'bold' }}>{date}.</span>
+              </div>
             </OTHERINPUT>
           </div>
-          <div className="d-flex justify-content-center ">
-            <BUTTON onClick={onClickConfirm}>Confirm</BUTTON>
+          <div className="d-flex justify-content-center mt-xs-4">
+            <BUTTON>Confirm</BUTTON>
           </div>
         </div>
       </div>
