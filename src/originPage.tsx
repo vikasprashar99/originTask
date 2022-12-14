@@ -130,6 +130,7 @@ export function OriginPage(): JSX.Element {
           <span style={{ fontWeight: 'bold' }}>saving goal.</span>{' '}
         </div>
         <div
+          className="mainContainer"
           style={{
             position: 'absolute',
             left: '50%',
@@ -140,7 +141,6 @@ export function OriginPage(): JSX.Element {
             height: '75%',
             padding: '3.1%',
           }}
-          className="d-flex flex-column justify-content-around"
         >
           <div className="d-flex justify-content-start">
             <div>
