@@ -1,59 +1,21 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import { useState } from 'react';
 import mainLogo from './assets/icons/logo.png';
 import buyHouse from './assets/icons/buy-a-house.svg';
-
-// Amount and Date Input
-const INPUT = styled.input.attrs((props) => ({
-  size: props.size || '1em',
-  boxSizing: 'border-box',
-}))`
-  color: #4d6475;
-  font-size: 1em;
-  border: 1px solid #e9eef2;
-  border-radius: 3px;
-  box-sizing: border-box;
-  width: 100%;
-  /* here we use the dynamically computed prop */
-  padding: ${(props) => props.size};
-`;
-
-// Div for showing monthly amount
-const STYLEDDIVFIRST = styled.div({
-  boxSizing: 'border-box',
-  border: '1px solid #E9EEF2',
-  borderRadius: '3px',
-  padding: '1.3em',
-  display: 'flex',
-  justifyContent: 'space-between',
-  borderBottom: 'none',
-});
-
-// Div to show other calculations
-const STYLEDDIVSECOND = styled.div({
-  border: '1px solid #E9EEF2',
-  borderRadius: '3px',
-  padding: '1.3em',
-  display: 'flex',
-  borderTop: 'none',
-  background: '#F4F8FA',
-});
-
-// confirm button
-const BUTTON = styled.button`
-  width: 320px;
-  height: 56px;
-  background: #1b31a8;
-  border-radius: 32px;
-  color: white;
-  font-size: 1em;
-  font-weight: bold;
-`;
+import {
+  BUTTON,
+  INPUT,
+  STYLEDDIVFIRST,
+  STYLEDDIVSECOND,
+} from './styledComponents';
 
 export function OriginPage(): JSX.Element {
   const currentDate = new Date();
   const [amount, setAmount] = useState(0);
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(
+    currentDate.getFullYear() +
+      '-' +
+      (Number(currentDate.getMonth()) + Number(1))
+  );
   const [monthlyAmount, setMonthlyAmount] = useState(0);
   const [totalMonths, setTotalMonths] = useState(0);
 
