@@ -133,7 +133,10 @@ export function OriginPage(): JSX.Element {
           </div>
 
           {/* Amount and Month Div */}
-          <div className="item" style={{ paddingLeft: 0, paddingRight: 0 }}>
+          <div
+            className="firstContainer"
+            style={{ paddingLeft: 0, paddingRight: 0 }}
+          >
             <div className="d-flex flex-column col-md-7">
               <div style={{ color: '#1E2A32 ' }}>Total amount</div>
               <div>
