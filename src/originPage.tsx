@@ -137,7 +137,7 @@ export function OriginPage(): JSX.Element {
             transform: 'translate(-50%, -50%)',
             background: '#FFFFFF',
             boxShadow: '0px 16px 32px rgba(30, 42, 50, 0.08)',
-            height: '70%',
+            height: '75%',
             padding: '3.1%',
           }}
           className="d-flex flex-column justify-content-around"
@@ -176,7 +176,7 @@ export function OriginPage(): JSX.Element {
               <div>
                 <INPUT
                   type="number"
-                  placeholder="Amount"
+                  placeholder="$"
                   onChange={handleChangeAmount}
                   value={amount}
                   name="amount"
