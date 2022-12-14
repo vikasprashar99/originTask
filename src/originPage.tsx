@@ -85,6 +85,7 @@ export function OriginPage(): JSX.Element {
           style={{
             color: '#1B31A8',
             fontSize: '1.2em',
+            height: '2em',
           }}
           className="d-flex justify-content-center mt-5"
         >
