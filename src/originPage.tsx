@@ -46,7 +46,7 @@ export function OriginPage(): JSX.Element {
     setMonthlyAmount(amount / months);
   };
 
-  // function to find month difference between two dates
+  // common function to find month difference between two dates
   const monthDiff = (d1: Date, selectedYear: number, selectedMonth: number) => {
     let months;
     months = (selectedYear - d1.getFullYear()) * 12;
