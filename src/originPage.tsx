@@ -6,7 +6,7 @@ import {
   INPUT,
   STYLEDDIVFIRST,
   STYLEDDIVSECOND,
-} from './styledComponents';
+} from './common/styledComponents';
 
 export function OriginPage(): JSX.Element {
   const currentDate = new Date();
